@@ -13,6 +13,7 @@ import { MaterialModule } from '../core/material/material.module';
 import { PassagemComponent } from './passagem/passagem.component';
 import { PassagemDestaqueComponent } from './passagem-destaque/passagem-destaque.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { BuscaRoutingModule } from './busca-routing.module';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,13 @@ import { ReactiveFormsModule } from '@angular/forms';
     PassagemComponent,
     PassagemDestaqueComponent,
   ],
-  imports: [CommonModule, SharedModule, MaterialModule, ReactiveFormsModule],
+  imports: [
+    CommonModule,
+    SharedModule,
+    MaterialModule,
+    ReactiveFormsModule,
+    BuscaRoutingModule,
+  ],
   exports: [
     BuscaComponent,
     CardBuscaComponent,
