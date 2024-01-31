@@ -1,5 +1,10 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
+import {
+  FormGroup,
+  FormControl,
+  Validators,
+  FormBuilder,
+} from '@angular/forms';
 import { FormularioService } from 'src/app/core/services/formulario.service';
 import { UnidadeFederativa } from 'src/app/core/types/type';
 import { FormValidations } from '../form-validations';
@@ -7,22 +12,25 @@ import { FormValidations } from '../form-validations';
 @Component({
   selector: 'app-form-base',
   templateUrl: './form-base.component.html',
-  styleUrls: ['./form-base.component.scss']
+  styleUrls: ['./form-base.component.scss'],
 })
-export class FormBaseComponent implements OnInit{
+export class FormBaseComponent implements OnInit {
   cadastroForm!: FormGroup;
-  estadoControl = new FormControl<UnidadeFederativa | null>(null, Validators.required);
+  estadoControl = new FormControl<UnidadeFederativa | null>(
+    null,
+    Validators.required
+  );
 
-  @Input() perfilComponent: boolean = false;
-  @Input() titulo: string = 'Crie sua conta';
-  @Input() textoBotao: string = 'CADASTRAR';
-  @Output() acaoClique: EventEmitter<any> = new EventEmitter<any>()
-  @Output() sair: EventEmitter<any> = new EventEmitter<any>()
+  @Input() perfilComponent = false;
+  @Input() titulo = 'Crie sua conta';
+  @Input() textoBotao = 'CADASTRAR';
+  @Output() acaoClique: EventEmitter<void> = new EventEmitter<void>();
+  @Output() sair: EventEmitter<void> = new EventEmitter<void>();
 
   constructor(
     private formBuilder: FormBuilder,
     private formularioService: FormularioService
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.cadastroForm = this.formBuilder.group({
@@ -35,20 +43,36 @@ export class FormBaseComponent implements OnInit{
       genero: ['outro'],
       telefone: [null, Validators.required],
       estado: this.estadoControl,
-      confirmarEmail: [null, [Validators.required, Validators.email, FormValidations.equalTo('email')]],
-      confirmarSenha: [null, [Validators.required, Validators.minLength(3), FormValidations.equalTo('senha')]],
-      aceitarTermos: [false, [Validators.requiredTrue]]
+      confirmarEmail: [
+        null,
+        [
+          Validators.required,
+          Validators.email,
+          FormValidations.equalTo('email'),
+        ],
+      ],
+      confirmarSenha: [
+        null,
+        [
+          Validators.required,
+          Validators.minLength(3),
+          FormValidations.equalTo('senha'),
+        ],
+      ],
+      aceitarTermos: [false, [Validators.requiredTrue]],
     });
 
-    if(this.perfilComponent){
-      this.cadastroForm.get('aceitarTermos')?.setValidators(null)
+    if (this.perfilComponent) {
+      this.cadastroForm.get('aceitarTermos')?.setValidators(null);
     } else {
-      this.cadastroForm.get('aceitarTermos')?.setValidators([Validators.requiredTrue])
+      this.cadastroForm
+        .get('aceitarTermos')
+        ?.setValidators([Validators.requiredTrue]);
     }
 
     this.cadastroForm.get('aceitarTermos')?.updateValueAndValidity();
 
-    this.formularioService.setCadastro(this.cadastroForm)
+    this.formularioService.setCadastro(this.cadastroForm);
   }
 
   executarAcao() {

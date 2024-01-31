@@ -6,6 +6,7 @@ import { FormularioService } from 'src/app/core/services/formulario.service';
 import { TokenService } from 'src/app/autenticacao/services/token.service';
 import { UserService } from 'src/app/autenticacao/services/user.service';
 import { PessoaUsuaria } from 'src/app/core/types/type';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-perfil',
@@ -18,8 +19,9 @@ export class PerfilComponent implements OnInit {
   perfilComponent = true;
 
   cadastro!: PessoaUsuaria;
-  token: string = '';
-  nome: string = '';
+  token = '';
+  nome = '';
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   form!: FormGroup<any> | null;
 
   constructor(
@@ -72,7 +74,7 @@ export class PerfilComponent implements OnInit {
         alert('Cadastro editado com sucesso');
         this.router.navigate(['/']);
       },
-      error: (err) => {
+      error: (err: HttpErrorResponse) => {
         console.log(err);
       },
     });
